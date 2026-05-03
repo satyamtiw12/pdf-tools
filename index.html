@@ -5,6 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PDFBox — Free PDF Tools</title>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+.page-picker{display:none;margin-top:14px}
+.page-picker.show{display:block}
+.page-picker-info{background:var(--blue-light);border:1px solid #91caff;border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;color:var(--blue);margin-bottom:12px}
+.page-picker-info span{font-weight:700}
+.page-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;max-height:340px;overflow-y:auto;padding:4px 2px}
+.page-thumb{position:relative;cursor:pointer;border-radius:8px;border:2px solid var(--border);overflow:hidden;transition:all .18s;background:var(--bg2)}
+.page-thumb:hover{border-color:var(--accent2);transform:translateY(-2px);box-shadow:var(--shadow)}
+.page-thumb.selected{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.page-thumb canvas{width:100%;display:block}
+.page-thumb .pg-label{text-align:center;font-size:11px;font-weight:600;padding:4px 0;color:var(--text2);background:var(--card)}
+.page-thumb .pg-check{position:absolute;top:5px;right:5px;width:20px;height:20px;background:var(--accent);border-radius:50%;display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
+.page-thumb.selected .pg-check{display:flex}
+.page-thumb.selected .pg-label{color:var(--accent);background:var(--accent-light)}
+.page-picker-actions{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap}
+.pg-selected-info{font-size:12px;color:var(--text2);flex:1}
+.pg-selected-info strong{color:var(--accent)}
+.pg-loading{text-align:center;padding:2rem;color:var(--text3);font-size:13px}
+</style>
 <style>
 :root{--bg:#f7f4ef;--bg2:#edeae3;--bg3:#e3dfd7;--card:#ffffff;--text:#1a1814;--text2:#6b6760;--text3:#a8a49e;--accent:#d4380d;--accent2:#f5530a;--accent-light:#fff1ec;--green:#237804;--green-light:#f0fbe8;--blue:#0958d9;--blue-light:#e8f0ff;--border:#ddd9d2;--border2:#c8c3bc;--radius:14px;--radius-sm:8px;--shadow:0 2px 12px rgba(0,0,0,0.07);--shadow-lg:0 8px 32px rgba(0,0,0,0.10)}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
@@ -181,7 +201,7 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
   </div>
 </section>
 
-<footer><p>PDFBox — Free PDF Tools &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p><p style="margin-top:6px">All tools are free. Your data is safe.</p></footer>
+<footer><p> PDFBox — Free PDF Tools &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p><p style="margin-top:6px">All tools are free. Your data is safe.</p></footer>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
@@ -239,11 +259,11 @@ const tools={
     opts:[{l:'Degrees',id:'rdeg',type:'select',items:[{v:'90',l:'90° Clockwise'},{v:'270',l:'90° Anti-clockwise'},{v:'180',l:'180°'}]},{l:'Apply to',id:'rapply',type:'select',items:[{v:'all',l:'All pages'},{v:'first',l:'First page'},{v:'range',l:'Page range'}]},{l:'Page Range',id:'rrange',type:'text',ph:'e.g. 1-3, 5'}],
     ep:'/api/rotate',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('degrees',o.rdeg||'90');d.append('apply_to',o.rapply||'all');d.append('page_range',o.rrange||'');return d},out:'rotated.pdf'},
   'delete-pages':{name:'Delete Pages',icon:'🗑️',color:'ic-red',desc:'Remove specific pages from PDF.',accepts:'.pdf',multi:false,label:'Select PDF',
-    opts:[{l:'Pages to Delete',id:'dpgs',type:'text',ph:'e.g. 2, 4-6, 8'}],
-    ep:'/api/delete-pages',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('pages_to_delete',o.dpgs||'');return d},out:'pages_deleted.pdf'},
+    opts:[],pagePicker:true,
+    ep:'/api/delete-pages',fd:(f,o)=>{const pages=getSelectedPages();if(!pages.length)throw new Error('Please select at least one page to delete');const d=new FormData();d.append('file',f[0]);d.append('pages_to_delete',pages.join(','));return d},out:'pages_deleted.pdf'},
   reorder:{name:'Reorder Pages',icon:'📋',color:'ic-green',desc:'Change the order of pages.',accepts:'.pdf',multi:false,label:'Select PDF',
     opts:[{l:'New Order',id:'rord',type:'text',ph:'e.g. 3,1,2,4'}],
-    ep:'/api/reorder',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('new_order',o.rord||'');return d},out:'reordered.pdf'},
+    ep:'/api/reorder',fd:(f,o)=>{if(!o.rord||!o.rord.trim())throw new Error('Please enter new page order (e.g. 3,1,2,4)');const d=new FormData();d.append('file',f[0]);d.append('new_order',o.rord.trim());return d},out:'reordered.pdf'},
   protect:{name:'Password Protect',icon:'🔒',color:'ic-red',desc:'Add password to PDF.',accepts:'.pdf',multi:false,label:'Select PDF',
     opts:[{l:'Password',id:'pp1',type:'text',ph:'Strong password...'},{l:'Confirm',id:'pp2',type:'text',ph:'Confirm password...'}],
     ep:'/api/protect',fd:(f,o)=>{if(o.pp1!==o.pp2)throw new Error('Passwords do not match!');if(!o.pp1||o.pp1.length<4)throw new Error('Password must be at least 4 characters');const d=new FormData();d.append('file',f[0]);d.append('password',o.pp1);return d},out:'protected.pdf'},
@@ -284,6 +304,17 @@ function openTool(id){
     <input type="file" id="${t.extraFile.id}" accept="${t.extraFile.accepts}" onchange="exFiles['${t.extraFile.id}']=this.files[0]" style="font-size:13px;color:var(--text2);width:100%;"></div>`;
   }
 
+  const pagePickerHTML=t.pagePicker?`
+    <div class="page-picker" id="pagePicker">
+      <div class="page-picker-info">ℹ️ Click on pages to select them for deletion. Total pages: <span id="pickerTotal">?</span></div>
+      <div class="page-thumbs" id="pageThumbs"></div>
+      <div class="page-picker-actions">
+        <span class="pg-selected-info" id="pgSelectedInfo">No pages selected</span>
+        <button class="btn btn-secondary" style="padding:6px 12px;font-size:12px" onclick="selectAllPages()">Select All</button>
+        <button class="btn btn-secondary" style="padding:6px 12px;font-size:12px" onclick="clearPageSelection()">Clear</button>
+      </div>
+    </div>`:'';
+
   document.getElementById('modalBody').innerHTML=`
     <p style="font-size:13px;color:var(--text2);margin-bottom:16px">${t.desc}</p>
     <div class="upload-area" id="upa" onclick="document.getElementById('fmod').click()"
@@ -295,6 +326,7 @@ function openTool(id){
     </div>
     <input type="file" id="fmod" accept="${t.accepts}" ${t.multi?'multiple':''} style="display:none" onchange="handleFiles(this.files)">
     <div class="file-list" id="flist"></div>
+    ${pagePickerHTML}
     ${optsH}${exH}
     <div class="progress-wrap" id="pw"><div class="progress-label"><span id="pmsg">Processing...</span><span id="ppct">0%</span></div><div class="progress-bar"><div class="progress-fill" id="pf"></div></div></div>
     <div class="error-box" id="eb"></div>
@@ -326,10 +358,72 @@ function handleFiles(files){
     document.getElementById('flist').insertAdjacentHTML('beforeend',
       `<div class="file-item" id="fi${i}"><span class="fi-icon">📄</span><span class="fi-name" title="${f.name}">${f.name}</span><span class="fi-size">${sz}</span><button class="fi-remove" onclick="rmFile(${i})">✕</button></div>`);
   });
-  if(selFiles.length)document.getElementById('procBtn').disabled=false;
+  if(selFiles.length){
+    const t=tools[curTool];
+    if(t.pagePicker&&selFiles.length===1){
+      document.getElementById('procBtn').disabled=true;
+      renderPagePicker(selFiles[0]);
+    }else{
+      document.getElementById('procBtn').disabled=false;
+    }
+  }
 }
 
 function rmFile(i){selFiles.splice(i,1);document.getElementById(`fi${i}`)?.remove();if(!selFiles.length)document.getElementById('procBtn').disabled=true}
+
+// Page picker logic
+let selectedPages=new Set();
+function getSelectedPages(){return Array.from(selectedPages).sort((a,b)=>a-b)}
+
+async function renderPagePicker(file){
+  const picker=document.getElementById('pagePicker');
+  if(!picker)return;
+  picker.classList.add('show');
+  const thumbs=document.getElementById('pageThumbs');
+  thumbs.innerHTML='<div class="pg-loading">⏳ Loading PDF pages...</div>';
+  selectedPages.clear();updatePickerInfo();
+  try{
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const ab=await file.arrayBuffer();
+    const pdf=await pdfjsLib.getDocument({data:ab}).promise;
+    const total=pdf.numPages;
+    document.getElementById('pickerTotal').textContent=total;
+    thumbs.innerHTML='';
+    for(let i=1;i<=total;i++){
+      const div=document.createElement('div');
+      div.className='page-thumb';div.dataset.page=i;
+      div.innerHTML=`<canvas id="pgc${i}"></canvas><div class="pg-check">✓</div><div class="pg-label">Page ${i}</div>`;
+      div.onclick=()=>togglePage(i,div);
+      thumbs.appendChild(div);
+      const page=await pdf.getPage(i);
+      const vp=page.getViewport({scale:0.3});
+      const canvas=document.getElementById(`pgc${i}`);
+      canvas.width=vp.width;canvas.height=vp.height;
+      await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;
+    }
+  }catch(e){thumbs.innerHTML='<div class="pg-loading">❌ Could not preview PDF</div>';}
+}
+
+function togglePage(n,el){
+  if(selectedPages.has(n)){selectedPages.delete(n);el.classList.remove('selected')}
+  else{selectedPages.add(n);el.classList.add('selected')}
+  updatePickerInfo();
+}
+
+function updatePickerInfo(){
+  const el=document.getElementById('pgSelectedInfo');
+  if(!el)return;
+  const n=selectedPages.size;
+  el.innerHTML=n?`<strong>${n} page${n>1?'s':''}</strong> selected to delete`:'No pages selected';
+  document.getElementById('procBtn').disabled=n===0;
+}
+
+function selectAllPages(){
+  document.querySelectorAll('.page-thumb').forEach(el=>{const p=parseInt(el.dataset.page);selectedPages.add(p);el.classList.add('selected')});updatePickerInfo();
+}
+function clearPageSelection(){
+  document.querySelectorAll('.page-thumb').forEach(el=>{el.classList.remove('selected')});selectedPages.clear();updatePickerInfo();
+}
 
 async function doProcess(){
   if(!selFiles.length)return;
