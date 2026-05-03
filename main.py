@@ -27,7 +27,7 @@ app.add_middleware(
 BASE_DIR   = Path(__file__).parent
 UPLOAD_DIR = BASE_DIR / "uploads"
 OUTPUT_DIR = BASE_DIR / "outputs"
-FRONTEND   = BASE_DIR.parent / "index.html"
+FRONTEND   = BASE_DIR / "index.html"
 UPLOAD_DIR.mkdir(exist_ok=True)
 OUTPUT_DIR.mkdir(exist_ok=True)
 
