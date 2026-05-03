@@ -264,8 +264,6 @@ function openTool(id){
   document.getElementById('modalIcon').textContent=t.icon;
   document.getElementById('modalTitle').textContent=t.name;
 
-  const used=getUsed(),rem=DAILY_LIMIT-used;
-  const dots=Array.from({length:DAILY_LIMIT},(_,i)=>`<div class="limit-dot ${i<used?'used':''}"></div>`).join('');
 
   let optsH='';
   if(t.opts?.length){
