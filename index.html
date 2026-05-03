@@ -107,7 +107,7 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
     <span class="nav-link" onclick="document.getElementById('privacy').scrollIntoView({behavior:'smooth'})">Privacy</span>
   </div>
   <div style="display:flex;align-items:center;gap:12px;">
-    <div class="api-status"><div class="api-dot" id="apiDot"></div><span id="apiTxt">Checking...</span></div>
+    <span id="apiTxt">Checking...</span></div>
     <div class="nav-cta">100% Free</div>
   </div>
 </nav>
@@ -214,14 +214,8 @@ function getUsed(){return parseInt(localStorage.getItem('pdfbox_'+new Date().toD
 function addUse(){localStorage.setItem('pdfbox_'+new Date().toDateString(),getUsed()+1)}
 function canUse(){return getUsed()<DAILY_LIMIT}
 
-async function checkApi(){
-  try{
-    const r=await fetch(API_BASE+'/health',{signal:AbortSignal.timeout(5000)});
-    if(r.ok){document.getElementById('apiDot').className='api-dot online';document.getElementById('apiTxt').textContent='Server Online'}
-    else throw 0;
-  }catch{document.getElementById('apiDot').className='api-dot offline';document.getElementById('apiTxt').textContent='Server Offline'}
-}
-checkApi();setInterval(checkApi,30000);
+
+
 
 function showToast(msg,d=3500){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),d)}
 
