@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDFBox — Free PDF Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f4ef;--bg2:#edeae3;--bg3:#e3dfd7;--card:#ffffff;--text:#1a1814;--text2:#6b6760;--text3:#a8a49e;--accent:#d4380d;--accent2:#f5530a;--accent-light:#fff1ec;--green:#237804;--green-light:#f0fbe8;--blue:#0958d9;--blue-light:#e8f0ff;--border:#ddd9d2;--border2:#c8c3bc;--radius:14px;--radius-sm:8px;--shadow:0 2px 12px rgba(0,0,0,0.07);--shadow-lg:0 8px 32px rgba(0,0,0,0.10)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:'Satoshi',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}a{text-decoration:none;color:inherit}
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:64px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--border);gap:12px}
+.nav-logo{font-family:'Clash Display',sans-serif;font-size:1.5rem;font-weight:700;color:var(--accent);letter-spacing:-0.5px}.nav-logo span{color:var(--text)}
+.nav-links{display:flex;gap:6px;flex:1;margin-left:1rem}
+.nav-link{padding:6px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;color:var(--text2);transition:all .15s;cursor:pointer}.nav-link:hover{background:var(--bg2);color:var(--text)}
+.nav-cta{background:var(--accent);color:#fff;padding:8px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;white-space:nowrap}
+.api-status{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);white-space:nowrap}
+.api-dot{width:8px;height:8px;border-radius:50%;background:var(--text3)}.api-dot.online{background:var(--green);box-shadow:0 0 6px rgba(35,120,4,.4)}.api-dot.offline{background:var(--accent)}
+.hero{text-align:center;padding:5rem 1.5rem 3.5rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:800px;height:400px;background:radial-gradient(ellipse,rgba(212,56,13,.07) 0%,transparent 65%);pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);color:var(--accent);border:1px solid rgba(212,56,13,.2);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;letter-spacing:.05em;margin-bottom:1.5rem;text-transform:uppercase}
+.hero-tag::before{content:'●';font-size:8px}
+.hero h1{font-family:'Clash Display',sans-serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:700;line-height:1.05;color:var(--text);margin-bottom:1.2rem;letter-spacing:-1.5px}
+.hero h1 span{color:var(--accent)}
+.hero p{font-size:1.1rem;color:var(--text2);max-width:520px;margin:0 auto 2.5rem;line-height:1.75;font-weight:300}
+.hero-stats{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;margin-top:1rem;padding-top:2.5rem;border-top:1px solid var(--border)}
+.hero-stat{text-align:center}.hero-stat strong{display:block;font-family:'Clash Display',sans-serif;font-size:1.8rem;font-weight:700;color:var(--text)}.hero-stat span{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.tools-section{max-width:1200px;margin:0 auto;padding:3rem 1.5rem 5rem}
+.section-header{margin-bottom:2rem}.section-header h2{font-family:'Clash Display',sans-serif;font-size:1.6rem;font-weight:600;color:var(--text);letter-spacing:-.5px}.section-header p{font-size:14px;color:var(--text2);margin-top:4px}
+.category{margin-bottom:3rem}
+.cat-label{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:1rem}
+.cat-label::after{content:'';width:40px;height:1px;background:var(--border2)}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.tool-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 18px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.tool-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-lg)}.tool-card:hover .tool-icon{transform:scale(1.08)}
+.tool-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;transition:transform .2s;flex-shrink:0}
+.ic-red{background:var(--accent-light)}.ic-green{background:var(--green-light)}.ic-blue{background:var(--blue-light)}.ic-orange{background:#fff7e6}.ic-purple{background:#f3e8ff}
+.tool-name{font-family:'Clash Display',sans-serif;font-size:14px;font-weight:600;color:var(--text)}.tool-desc{font-size:12px;color:var(--text2);line-height:1.5}
+.tool-badge{position:absolute;top:10px;right:10px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:20px}
+.badge-free{background:var(--green-light);color:var(--green)}
+.limits-banner{max-width:1200px;margin:0 auto 3rem;padding:0 1.5rem}
+.limits-card{background:#fffbf0;border:1px solid #ffd591;border-radius:var(--radius);padding:20px 24px;display:flex;gap:16px;align-items:flex-start}
+.limits-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.limits-content h3{font-family:'Clash Display',sans-serif;font-size:15px;color:#7c4a00;margin-bottom:8px}
+.limits-grid{display:flex;flex-wrap:wrap;gap:10px 24px}
+.limit-item{font-size:13px;color:#a05c00;display:flex;align-items:center;gap:5px}.limit-item::before{content:'•';color:#f0a020}
+.privacy-section{background:var(--text);color:var(--bg);padding:4rem 1.5rem;text-align:center}
+.privacy-section h2{font-family:'Clash Display',sans-serif;font-size:2rem;font-weight:700;margin-bottom:1rem}
+.privacy-section>p{font-size:1rem;color:var(--text3);max-width:480px;margin:0 auto 2.5rem;line-height:1.7}
+.privacy-grid{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;max-width:700px;margin:0 auto}
+.privacy-item{flex:1;min-width:160px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:20px;text-align:center}
+.privacy-item .pi-icon{font-size:28px;margin-bottom:10px}.privacy-item h4{font-family:'Clash Display',sans-serif;font-size:13px;color:var(--bg);margin-bottom:4px}.privacy-item p{font-size:12px;color:var(--text3)}
+footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,255,255,.06);padding:2rem 1.5rem;text-align:center;font-size:12px}footer a{color:var(--text3)}footer a:hover{color:var(--bg)}
+.modal-overlay{position:fixed;inset:0;background:rgba(26,24,20,.65);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border-radius:18px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.2);animation:modalIn .25s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(10px)}to{opacity:1;transform:none}}
+.modal-header{display:flex;align-items:center;gap:14px;padding:20px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card);z-index:1}
+.modal-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.modal-header h2{font-family:'Clash Display',sans-serif;font-size:1.2rem;flex:1}
+.modal-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:none;cursor:pointer;font-size:16px;color:var(--text2);display:flex;align-items:center;justify-content:center;transition:all .15s}.modal-close:hover{background:var(--bg2);color:var(--text)}
+.modal-body{padding:24px}
+.upload-area{border:2px dashed var(--border2);border-radius:var(--radius);padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+.upload-area:hover,.upload-area.dragover{border-color:var(--accent);background:var(--accent-light)}
+.upload-icon{font-size:40px;margin-bottom:12px}.upload-area h3{font-family:'Clash Display',sans-serif;font-size:16px;color:var(--text);margin-bottom:6px}.upload-area p{font-size:13px;color:var(--text2)}.upload-area .limit-note{font-size:11px;color:var(--text3);margin-top:10px}
+.progress-wrap{margin:16px 0;display:none}.progress-label{font-size:12px;color:var(--text2);margin-bottom:6px;display:flex;justify-content:space-between}
+.progress-bar{height:6px;background:var(--bg2);border-radius:3px;overflow:hidden}.progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .3s;width:0%}
+.file-list{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+.file-item{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px}
+.fi-icon{font-size:20px;flex-shrink:0}.fi-name{flex:1;font-size:13px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.fi-size{font-size:11px;color:var(--text3);flex-shrink:0}
+.fi-remove{background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:2px 4px}.fi-remove:hover{color:var(--accent)}
+.options-section{margin:20px 0;border-top:1px solid var(--border);padding-top:16px}.options-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px}
+.opt-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}.opt-label{font-size:12px;color:var(--text2);min-width:140px}
+.opt-input{padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:13px;font-family:'Satoshi',sans-serif;flex:1}.opt-input:focus{outline:none;border-color:var(--accent)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:var(--radius-sm);border:1px solid transparent;font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn-primary:hover{background:var(--accent2)}
+.btn-secondary{background:var(--bg2);color:var(--text);border-color:var(--border)}.btn-secondary:hover{background:var(--bg3)}
+.btn-success{background:var(--green);color:#fff;border-color:var(--green)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.daily-limit-bar{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:center;font-size:12px;color:var(--text2)}
+.limit-dots{display:flex;gap:4px;flex-wrap:wrap}
+.limit-dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}.limit-dot.used{background:var(--bg3)}
+.result-box{background:var(--green-light);border:1px solid #b7eb8f;border-radius:var(--radius);padding:20px;text-align:center;display:none;margin-top:16px}
+.result-box.show{display:block}.result-box h3{font-family:'Clash Display',sans-serif;font-size:18px;color:var(--green);margin-bottom:8px}.result-box p{font-size:13px;color:#3f6b10;margin-bottom:16px}.result-meta{font-size:11px;color:#5a8a20;margin-top:8px}
+.error-box{background:#fff1f0;border:1px solid #ffa39e;border-radius:var(--radius);padding:14px 16px;margin-top:12px;font-size:13px;color:#a8071a;display:none}.error-box.show{display:block}
+.config-note{background:var(--blue-light);border:1px solid #91caff;border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--blue)}
+.config-note code{background:rgba(9,88,217,.1);padding:1px 5px;border-radius:4px}
+.toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--text);color:var(--bg);padding:12px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all .3s;max-width:340px}
+.toast.show{transform:translateY(0);opacity:1}
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}.fade-up.visible{opacity:1;transform:translateY(0)}
+@media(max-width:640px){nav{padding:0 1rem}.nav-links{display:none}.hero h1{font-size:2.5rem}.tools-grid{grid-template-columns:repeat(2,1fr)}.modal{max-height:95vh}}
+</style>
+</head>
+<body>
+
+<script>
+  // ⚙️ YAHAN APNA BACKEND URL DAALEIN (Railway ya Render deploy ke baad)
+  const API_BASE = "https://pdf-tools-uzhs.onrender.com";
+  // Local test ke liye: const API_BASE = "http://localhost:8000";
+</script>
+
+<nav>
+  <div class="nav-logo">PDF<span>Box</span></div>
+  <div class="nav-links">
+    <span class="nav-link" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Tools</span>
+    <span class="nav-link" onclick="document.getElementById('privacy').scrollIntoView({behavior:'smooth'})">Privacy</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="api-status"><div class="api-dot" id="apiDot"></div><span id="apiTxt">Checking...</span></div>
+    <div class="nav-cta">100% Free</div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">All Tools Free · No Sign Up</div>
+  <h1>PDF ke saare kaam<br><span>ek jagah</span></h1>
+  <p>Merge, split, compress, convert — sab kuch free mein. Aapki files 1-2 ghante mein automatically delete ho jaati hain.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>13+</strong><span>PDF Tools</span></div>
+    <div class="hero-stat"><strong>Free</strong><span>Hamesha ke liye</span></div>
+    <div class="hero-stat"><strong>20MB</strong><span>Max File Size</span></div>
+    <div class="hero-stat"><strong>1–2hr</strong><span>Auto Delete</span></div>
+  </div>
+</section>
+
+<div class="limits-banner fade-up">
+  <div class="limits-card">
+    <div class="limits-icon">⚠️</div>
+    <div class="limits-content">
+      <h3>Free Plan ki Limits</h3>
+      <div class="limits-grid">
+        <div class="limit-item">Max file size: 20 MB</div>
+        <div class="limit-item">Daily: 10 uses per user</div>
+        <div class="limit-item">Batch processing nahi</div>
+        <div class="limit-item">Files 1-2 ghante mein delete</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tools-section" id="tools">
+  <div class="section-header fade-up">
+    <h2>Sabhi PDF Tools</h2>
+    <p>Kisi bhi tool par click karein — seedha use karna shuru ho jayega</p>
+  </div>
+
+  <div class="category fade-up">
+    <div class="cat-label">Basic Tools</div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="openTool('merge')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">🔗</div><div class="tool-name">Merge PDF</div><div class="tool-desc">Multiple PDFs ko ek mein jodein</div></div>
+      <div class="tool-card" onclick="openTool('split')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">✂️</div><div class="tool-name">Split PDF</div><div class="tool-desc">PDF ko pages mein baantein</div></div>
+      <div class="tool-card" onclick="openTool('compress')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-orange">🗜️</div><div class="tool-name">Compress PDF</div><div class="tool-desc">File size kam karein quality rakh ke</div></div>
+      <div class="tool-card" onclick="openTool('pdf-to-jpg')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">🖼️</div><div class="tool-name">PDF to JPG</div><div class="tool-desc">PDF pages ko images mein badlein</div></div>
+      <div class="tool-card" onclick="openTool('jpg-to-pdf')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">📸</div><div class="tool-name">JPG to PDF</div><div class="tool-desc">Images ko PDF mein convert karein</div></div>
+    </div>
+  </div>
+
+  <div class="category fade-up">
+    <div class="cat-label">Editing Tools</div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="openTool('add-text')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-purple">✏️</div><div class="tool-name">Add Text</div><div class="tool-desc">PDF par kahi bhi text add karein</div></div>
+      <div class="tool-card" onclick="openTool('add-signature')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-purple">🖊️</div><div class="tool-name">Add Signature</div><div class="tool-desc">Signature image PDF par lagaein</div></div>
+    </div>
+  </div>
+
+  <div class="category fade-up">
+    <div class="cat-label">Page Tools</div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="openTool('rotate')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-blue">🔄</div><div class="tool-name">Rotate PDF</div><div class="tool-desc">Pages ko rotate karein</div></div>
+      <div class="tool-card" onclick="openTool('delete-pages')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">🗑️</div><div class="tool-name">Delete Pages</div><div class="tool-desc">Specific pages hatao</div></div>
+      <div class="tool-card" onclick="openTool('reorder')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">📋</div><div class="tool-name">Reorder Pages</div><div class="tool-desc">Pages ka order badlein</div></div>
+    </div>
+  </div>
+
+  <div class="category fade-up">
+    <div class="cat-label">Security</div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="openTool('protect')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">🔒</div><div class="tool-name">Password Protect</div><div class="tool-desc">PDF par password lagaein</div></div>
+      <div class="tool-card" onclick="openTool('unlock')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">🔓</div><div class="tool-name">Unlock PDF</div><div class="tool-desc">PDF se password hataein</div></div>
+      <div class="tool-card" onclick="openTool('info')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-blue">ℹ️</div><div class="tool-name">PDF Info</div><div class="tool-desc">PDF ki details dekho</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="privacy-section fade-up" id="privacy">
+  <h2>Aapki Privacy Pehle</h2>
+  <p>Aapki files kabhi bhi permanently store nahi hoti.</p>
+  <div class="privacy-grid">
+    <div class="privacy-item"><div class="pi-icon">⏱️</div><h4>Auto Delete</h4><p>1-2 ghante mein automatically delete</p></div>
+    <div class="privacy-item"><div class="pi-icon">🔐</div><h4>Encrypted</h4><p>HTTPS se secure transfer</p></div>
+    <div class="privacy-item"><div class="pi-icon">🚫</div><h4>No Storage</h4><p>Koi permanent database nahi</p></div>
+    <div class="privacy-item"><div class="pi-icon">👤</div><h4>No Account</h4><p>Sign up ki zaroorat nahi</p></div>
+  </div>
+</section>
+
+<footer><p>© 2025 PDFBox — Free PDF Tools &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p><p style="margin-top:6px">Sab tools free hain. Aapka data safe hai.</p></footer>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-icon" id="modalIcon">📄</div>
+      <h2 id="modalTitle">Tool</h2>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DAILY_LIMIT=10;
+function getUsed(){return parseInt(localStorage.getItem('pdfbox_'+new Date().toDateString())||'0')}
+function addUse(){localStorage.setItem('pdfbox_'+new Date().toDateString(),getUsed()+1)}
+function canUse(){return getUsed()<DAILY_LIMIT}
+
+async function checkApi(){
+  try{
+    const r=await fetch(API_BASE+'/health',{signal:AbortSignal.timeout(5000)});
+    if(r.ok){document.getElementById('apiDot').className='api-dot online';document.getElementById('apiTxt').textContent='Server Online'}
+    else throw 0;
+  }catch{document.getElementById('apiDot').className='api-dot offline';document.getElementById('apiTxt').textContent='Server Offline'}
+}
+checkApi();setInterval(checkApi,30000);
+
+function showToast(msg,d=3500){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),d)}
+
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)}}),{threshold:.1});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+
+const tools={
+  merge:{name:'Merge PDF',icon:'🔗',color:'ic-red',desc:'Multiple PDFs ko ek mein jodein (min 2 files chahiye).',accepts:'.pdf',multi:true,label:'PDFs select karein',opts:[],ep:'/api/merge',
+    fd:(f,o)=>{const d=new FormData();f.forEach(x=>d.append('files',x));return d},out:'merged.pdf'},
+  split:{name:'Split PDF',icon:'✂️',color:'ic-red',desc:'PDF ko pages mein baantein.',accepts:'.pdf',multi:false,label:'PDF select karein',
+    opts:[{l:'Method',id:'splitM',type:'select',items:[{v:'each',l:'Har page alag (ZIP)'},{v:'range',l:'Page range'}]},{l:'Page Range',id:'splitR',type:'text',ph:'e.g. 1-3, 5'}],
+    ep:'/api/split',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('method',o.splitM||'each');d.append('page_range',o.splitR||'');return d},out:'split.zip'},
+  compress:{name:'Compress PDF',icon:'🗜️',color:'ic-orange',desc:'PDF ki file size kam karein.',accepts:'.pdf',multi:false,label:'PDF select karein',
+    opts:[{l:'Level',id:'cmpL',type:'select',items:[{v:'low',l:'Low (best quality)'},{v:'medium',l:'Medium'},{v:'high',l:'High (smallest)'}]}],
+    ep:'/api/compress',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('level',o.cmpL||'medium');return d},out:'compressed.pdf',showSaved:true},
+  'pdf-to-jpg':{name:'PDF to JPG',icon:'🖼️',color:'ic-green',desc:'PDF pages ko JPG images mein badlein.',accepts:'.pdf',multi:false,label:'PDF select karein',
+    opts:[{l:'DPI',id:'dpi',type:'select',items:[{v:'72',l:'72 DPI (Low)'},{v:'150',l:'150 DPI (Medium)'},{v:'300',l:'300 DPI (High)'}]}],
+    ep:'/api/pdf-to-jpg',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('dpi',o.dpi||'150');return d},out:'pdf_images.zip'},
+  'jpg-to-pdf':{name:'JPG to PDF',icon:'📸',color:'ic-green',desc:'Images ko ek PDF mein combine karein.',accepts:'image/*',multi:true,label:'Images select karein',opts:[],
+    ep:'/api/jpg-to-pdf',fd:(f,o)=>{const d=new FormData();f.forEach(x=>d.append('files',x));return d},out:'images.pdf'},
+  'add-text':{name:'Add Text',icon:'✏️',color:'ic-purple',desc:'PDF par custom text add karein.',accepts:'.pdf',multi:false,label:'PDF select karein',
+    opts:[{l:'Text',id:'atxt',type:'text',ph:'Yahan likhein...'},{l:'Page #',id:'apg',type:'text',ph:'1'},{l:'Position',id:'apos',type:'select',items:[{v:'bottom-center',l:'Bottom Center'},{v:'bottom-left',l:'Bottom Left'},{v:'bottom-right',l:'Bottom Right'},{v:'top-center',l:'Top Center'},{v:'center',l:'Center'}]},{l:'Font Size',id:'afs',type:'text',ph:'14'},{l:'Color',id:'acol',type:'select',items:[{v:'black',l:'Black'},{v:'red',l:'Red'},{v:'blue',l:'Blue'},{v:'green',l:'Green'}]}],
+    ep:'/api/add-text',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('text',o.atxt||'PDFBox');d.append('page_number',o.apg||'1');d.append('position',o.apos||'bottom-center');d.append('font_size',o.afs||'14');d.append('color',o.acol||'black');return d},out:'text_added.pdf'},
+  'add-signature':{name:'Add Signature',icon:'🖊️',color:'ic-purple',desc:'Signature image upload karein aur PDF par lagaein.',accepts:'.pdf',multi:false,label:'PDF select karein',extraFile:{id:'sigf',label:'Signature Image (PNG/JPG)',accepts:'image/*'},
+    opts:[{l:'Page (-1=last)',id:'spg',type:'text',ph:'-1'},{l:'Position',id:'spos',type:'select',items:[{v:'bottom-right',l:'Bottom Right'},{v:'bottom-left',l:'Bottom Left'},{v:'bottom-center',l:'Bottom Center'},{v:'top-right',l:'Top Right'}]},{l:'Width (px)',id:'sw',type:'text',ph:'150'}],
+    ep:'/api/add-signature',fd:(f,o,ex)=>{const d=new FormData();d.append('pdf_file',f[0]);if(ex?.sigf)d.append('sig_file',ex.sigf);d.append('page_number',o.spg||'-1');d.append('position',o.spos||'bottom-right');d.append('sig_width',o.sw||'150');return d},out:'signed.pdf'},
+  rotate:{name:'Rotate PDF',icon:'🔄',color:'ic-blue',desc:'PDF pages rotate karein.',accepts:'.pdf',multi:false,label:'PDF select karein',
+    opts:[{l:'Degrees',id:'rdeg',type:'select',items:[{v:'90',l:'90° Clockwise'},{v:'270',l:'90° Anti-clockwise'},{v:'180',l:'180°'}]},{l:'Apply to',id:'rapply',type:'select',items:[{v:'all',l:'Sabhi pages'},{v:'first',l:'Pehla page'},{v:'range',l:'Page range'}]},{l:'Page Range',id:'rrange',type:'text',ph:'e.g. 1-3, 5'}],
+    ep:'/api/rotate',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('degrees',o.rdeg||'90');d.append('apply_to',o.rapply||'all');d.append('page_range',o.rrange||'');return d},out:'rotated.pdf'},
+  'delete-pages':{name:'Delete Pages',icon:'🗑️',color:'ic-red',desc:'Specific pages PDF se hatao.',accepts:'.pdf',multi:false,label:'PDF select karein',
+    opts:[{l:'Pages to Delete',id:'dpgs',type:'text',ph:'e.g. 2, 4-6, 8'}],
+    ep:'/api/delete-pages',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('pages_to_delete',o.dpgs||'');return d},out:'pages_deleted.pdf'},
+  reorder:{name:'Reorder Pages',icon:'📋',color:'ic-green',desc:'Pages ka order badlein.',accepts:'.pdf',multi:false,label:'PDF select karein',
+    opts:[{l:'New Order',id:'rord',type:'text',ph:'e.g. 3,1,2,4'}],
+    ep:'/api/reorder',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('new_order',o.rord||'');return d},out:'reordered.pdf'},
+  protect:{name:'Password Protect',icon:'🔒',color:'ic-red',desc:'PDF par password lagaein.',accepts:'.pdf',multi:false,label:'PDF select karein',
+    opts:[{l:'Password',id:'pp1',type:'text',ph:'Strong password...'},{l:'Confirm',id:'pp2',type:'text',ph:'Dobara likhein...'}],
+    ep:'/api/protect',fd:(f,o)=>{if(o.pp1!==o.pp2)throw new Error('Passwords match nahi karte!');if(!o.pp1||o.pp1.length<4)throw new Error('Min 4 characters ka password chahiye');const d=new FormData();d.append('file',f[0]);d.append('password',o.pp1);return d},out:'protected.pdf'},
+  unlock:{name:'Unlock PDF',icon:'🔓',color:'ic-green',desc:'PDF se password hataein.',accepts:'.pdf',multi:false,label:'PDF select karein',
+    opts:[{l:'Current Password',id:'upass',type:'text',ph:'PDF ka password...'}],
+    ep:'/api/unlock',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('password',o.upass||'');return d},out:'unlocked.pdf'},
+  info:{name:'PDF Info',icon:'ℹ️',color:'ic-blue',desc:'PDF ki details dekho.',accepts:'.pdf',multi:false,label:'PDF select karein',opts:[],infoOnly:true,
+    ep:'/api/info',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);return d},out:null}
+};
+
+let curTool=null,selFiles=[],exFiles={},dlBlob=null;
+
+function openTool(id){
+  if(!canUse()){showToast('⚠️ Daily limit poori ho gayi! Kal wapas aayein.');return}
+  curTool=id;selFiles=[];exFiles={};dlBlob=null;
+  const t=tools[id];
+  document.getElementById('modalIcon').className='modal-icon '+t.color;
+  document.getElementById('modalIcon').textContent=t.icon;
+  document.getElementById('modalTitle').textContent=t.name;
+
+  const used=getUsed(),rem=DAILY_LIMIT-used;
+  const dots=Array.from({length:DAILY_LIMIT},(_,i)=>`<div class="limit-dot ${i<used?'used':''}"></div>`).join('');
+
+  let optsH='';
+  if(t.opts?.length){
+    optsH=`<div class="options-section"><div class="options-title">⚙️ Options</div>`;
+    t.opts.forEach(o=>{
+      if(o.type==='select'){
+        const items=o.items.map(x=>`<option value="${x.v}">${x.l}</option>`).join('');
+        optsH+=`<div class="opt-row"><span class="opt-label">${o.l}</span><select class="opt-input" id="${o.id}">${items}</select></div>`;
+      }else{
+        optsH+=`<div class="opt-row"><span class="opt-label">${o.l}</span><input class="opt-input" type="text" id="${o.id}" placeholder="${o.ph||''}"></div>`;
+      }
+    });
+    optsH+=`</div>`;
+  }
+
+  let exH='';
+  if(t.extraFile){
+    exH=`<div class="options-section"><div class="options-title">📎 ${t.extraFile.label}</div>
+    <input type="file" id="${t.extraFile.id}" accept="${t.extraFile.accepts}" onchange="exFiles['${t.extraFile.id}']=this.files[0]" style="font-size:13px;color:var(--text2);width:100%;"></div>`;
+  }
+
+  document.getElementById('modalBody').innerHTML=`
+    <div class="config-note">⚙️ Backend URL: <code>index.html</code> ke upar <code>API_BASE</code> set karein Railway deploy ke baad.</div>
+    <div class="daily-limit-bar"><div class="limit-dots">${dots}</div><span><strong>${rem}</strong> uses aaj baaki</span></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">${t.desc}</p>
+    <div class="upload-area" id="upa" onclick="document.getElementById('fmod').click()"
+      ondragover="event.preventDefault();this.classList.add('dragover')"
+      ondragleave="this.classList.remove('dragover')" ondrop="handleDrop(event)">
+      <div class="upload-icon">${t.icon}</div>
+      <h3>${t.label}</h3><p>Click ya drag & drop</p>
+      <div class="limit-note">Max 20 MB · ${t.multi?'Multiple files OK':'Single file'}</div>
+    </div>
+    <input type="file" id="fmod" accept="${t.accepts}" ${t.multi?'multiple':''} style="display:none" onchange="handleFiles(this.files)">
+    <div class="file-list" id="flist"></div>
+    ${optsH}${exH}
+    <div class="progress-wrap" id="pw"><div class="progress-label"><span id="pmsg">Processing...</span><span id="ppct">0%</span></div><div class="progress-bar"><div class="progress-fill" id="pf"></div></div></div>
+    <div class="error-box" id="eb"></div>
+    <div class="result-box" id="rb">
+      <h3>✅ Ho gaya!</h3>
+      <p id="rmsg">Aapki file taiyar hai.</p>
+      <button class="btn btn-success" onclick="triggerDl()">⬇ Download Karein</button>
+      <div class="result-meta" id="rmeta"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="procBtn" onclick="doProcess()" disabled>${t.icon} ${t.infoOnly?'Info Dekho':'Process Karein'}</button>
+      <button class="btn btn-secondary" onclick="closeModalDirect()">Cancel</button>
+    </div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function handleDrop(ev){ev.preventDefault();document.getElementById('upa').classList.remove('dragover');handleFiles(ev.dataTransfer.files)}
+
+function handleFiles(files){
+  const MAX=20*1024*1024;selFiles=[];
+  document.getElementById('flist').innerHTML='';
+  document.getElementById('rb').classList.remove('show');
+  document.getElementById('eb').classList.remove('show');
+  Array.from(files).forEach(f=>{
+    if(f.size>MAX){showToast(`"${f.name}" too large! Max 20MB.`);return}
+    selFiles.push(f);
+    const sz=f.size<1048576?(f.size/1024).toFixed(0)+' KB':(f.size/1048576).toFixed(1)+' MB';
+    const i=selFiles.length-1;
+    document.getElementById('flist').insertAdjacentHTML('beforeend',
+      `<div class="file-item" id="fi${i}"><span class="fi-icon">📄</span><span class="fi-name" title="${f.name}">${f.name}</span><span class="fi-size">${sz}</span><button class="fi-remove" onclick="rmFile(${i})">✕</button></div>`);
+  });
+  if(selFiles.length)document.getElementById('procBtn').disabled=false;
+}
+
+function rmFile(i){selFiles.splice(i,1);document.getElementById(`fi${i}`)?.remove();if(!selFiles.length)document.getElementById('procBtn').disabled=true}
+
+async function doProcess(){
+  if(!selFiles.length||!canUse())return;
+  const t=tools[curTool];
+  const btn=document.getElementById('procBtn'),pw=document.getElementById('pw'),pf=document.getElementById('pf'),
+    pm=document.getElementById('pmsg'),pp=document.getElementById('ppct'),
+    eb=document.getElementById('eb'),rb=document.getElementById('rb');
+
+  btn.disabled=true;eb.classList.remove('show');rb.classList.remove('show');
+  pw.style.display='block';pf.style.width='5%';pm.textContent='Upload ho raha hai...';pp.textContent='5%';
+
+  const opts={};
+  t.opts?.forEach(o=>{const el=document.getElementById(o.id);if(el)opts[o.id]=el.value});
+
+  try{
+    let fd;
+    try{fd=t.fd(selFiles,opts,exFiles)}catch(e){throw new Error(e.message)}
+
+    let prog=5;
+    const pi=setInterval(()=>{
+      prog+=Math.random()*10+4;if(prog>88)prog=88;
+      pf.style.width=prog+'%';pp.textContent=Math.round(prog)+'%';
+      pm.textContent=prog<40?'Upload ho raha hai...':prog<75?'Processing...':'Almost done...';
+    },400);
+
+    const res=await fetch(API_BASE+t.ep,{method:'POST',body:fd});
+    clearInterval(pi);
+
+    if(!res.ok){
+      const err=await res.json().catch(()=>({detail:'Server error'}));
+      throw new Error(err.detail||`Error ${res.status}`);
+    }
+
+    pf.style.width='100%';pp.textContent='100%';pm.textContent='Complete!';
+    addUse();
+
+    if(t.infoOnly){
+      const data=await res.json();
+      pw.style.display='none';rb.classList.add('show');
+      document.getElementById('rmsg').innerHTML=`
+        <table style="margin:0 auto;font-size:13px;text-align:left;border-collapse:collapse">
+          <tr><td style="padding:4px 16px 4px 0;color:var(--text2)">Pages</td><td><strong>${data.pages}</strong></td></tr>
+          <tr><td style="padding:4px 16px 4px 0;color:var(--text2)">File Size</td><td><strong>${data.file_size_kb} KB</strong></td></tr>
+          <tr><td style="padding:4px 16px 4px 0;color:var(--text2)">Encrypted</td><td><strong>${data.encrypted?'Haan 🔒':'Nahi'}</strong></td></tr>
+          <tr><td style="padding:4px 16px 4px 0;color:var(--text2)">Title</td><td><strong>${data.title}</strong></td></tr>
+          <tr><td style="padding:4px 16px 4px 0;color:var(--text2)">Author</td><td><strong>${data.author}</strong></td></tr>
+        </table>`;
+      rb.querySelector('button').style.display='none';
+    }else{
+      const blob=await res.blob();
+      dlBlob={blob,name:t.out};rb.classList.add('show');
+      document.getElementById('rmsg').textContent='Aapki file taiyar hai! Download karein.';
+      const saved=res.headers.get('X-Saved-Percent');
+      if(saved)document.getElementById('rmeta').textContent=`📉 ${saved}% size kam hui!`;
+      showToast('✅ File taiyar! Download karein.');
+    }
+  }catch(err){
+    pf.style.width='0%';pw.style.display='none';
+    eb.textContent='❌ '+err.message;eb.classList.add('show');
+    showToast('Error: '+err.message);
+  }finally{btn.disabled=false}
+}
+
+function triggerDl(){
+  if(!dlBlob)return;
+  const url=URL.createObjectURL(dlBlob.blob);
+  const a=document.createElement('a');a.href=url;a.download=dlBlob.name;a.click();
+  URL.revokeObjectURL(url);showToast('⬇ Download shuru!');
+}
+
+function closeModal(e){if(e.target===document.getElementById('modalOverlay'))closeModalDirect()}
+function closeModalDirect(){document.getElementById('modalOverlay').classList.remove('open');selFiles=[];exFiles={};dlBlob=null}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModalDirect()});
+</script>
+</body>
+</html>
