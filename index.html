@@ -181,7 +181,7 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
   </div>
 </section>
 
-<footer><p> PDFBox — Free PDF Tools &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p><p style="margin-top:6px">All tools are free. Your data is safe.</p></footer>
+<footer><p>PDFBox — Free PDF Tools &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p><p style="margin-top:6px">All tools are free. Your data is safe.</p></footer>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
@@ -216,7 +216,7 @@ const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.targe
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
 const tools={
-  merge:{name:'Merge PDF',icon:'🔗',color:'ic-red',desc:'Combine multiple PDFs into one (min 2 files chahiye).',accepts:'.pdf',multi:true,label:'Select PDFs',opts:[],ep:'/api/merge',
+  merge:{name:'Merge PDF',icon:'🔗',color:'ic-red',desc:'Combine multiple PDFs into one (min 2 files required).',accepts:'.pdf',multi:true,label:'Select PDFs',opts:[],ep:'/api/merge',
     fd:(f,o)=>{const d=new FormData();f.forEach(x=>d.append('files',x));return d},out:'merged.pdf'},
   split:{name:'Split PDF',icon:'✂️',color:'ic-red',desc:'Split PDF into pages.',accepts:'.pdf',multi:false,label:'Select PDF',
     opts:[{l:'Method',id:'splitM',type:'select',items:[{v:'each',l:'Each page separate (ZIP)'},{v:'range',l:'Page range'}]},{l:'Page Range',id:'splitR',type:'text',ph:'e.g. 1-3, 5'}],
@@ -257,7 +257,6 @@ const tools={
 let curTool=null,selFiles=[],exFiles={},dlBlob=null;
 
 function openTool(id){
-  if(!canUse()){showToast('⚠️ Daily limit reached! Come back tomorrow.');return}
   curTool=id;selFiles=[];exFiles={};dlBlob=null;
   const t=tools[id];
   document.getElementById('modalIcon').className='modal-icon '+t.color;
@@ -333,7 +332,7 @@ function handleFiles(files){
 function rmFile(i){selFiles.splice(i,1);document.getElementById(`fi${i}`)?.remove();if(!selFiles.length)document.getElementById('procBtn').disabled=true}
 
 async function doProcess(){
-  if(!selFiles.length||!canUse())return;
+  if(!selFiles.length)return;
   const t=tools[curTool];
   const btn=document.getElementById('procBtn'),pw=document.getElementById('pw'),pf=document.getElementById('pf'),
     pm=document.getElementById('pmsg'),pp=document.getElementById('ppct'),
@@ -356,12 +355,13 @@ async function doProcess(){
       pm.textContent=prog<40?'Uploading...':prog<75?'Processing...':'Almost done...';
     },400);
 
-    const res=await fetch(API_BASE+t.ep,{method:'POST',body:fd});
+    const res=await fetch(API_BASE+t.ep,{method:'POST',body:fd,signal:AbortSignal.timeout(60000)});
     clearInterval(pi);
 
     if(!res.ok){
       const err=await res.json().catch(()=>({detail:'Server error'}));
-      throw new Error(err.detail||`Error ${res.status}`);
+      const msg=typeof err.detail==='string'?err.detail:Array.isArray(err.detail)?err.detail.map(e=>e.msg||JSON.stringify(e)).join(', '):JSON.stringify(err.detail)||`Error ${res.status}`;
+      throw new Error(msg);
     }
 
     pf.style.width='100%';pp.textContent='100%';pm.textContent='Complete!';
@@ -384,13 +384,14 @@ async function doProcess(){
       dlBlob={blob,name:t.out};rb.classList.add('show');
       document.getElementById('rmsg').textContent='Your file is ready! Download it.';
       const saved=res.headers.get('X-Saved-Percent');
-      if(saved)document.getElementById('rmeta').textContent=`📉 ${saved}% size kam hui!`;
+      if(saved)document.getElementById('rmeta').textContent=`📉 ${saved}% size reduced!`;
       showToast('✅ File ready! Download it.');
     }
   }catch(err){
     pf.style.width='0%';pw.style.display='none';
-    eb.textContent='❌ '+err.message;eb.classList.add('show');
-    showToast('Error: '+err.message);
+    const msg=err.name==='TimeoutError'?'Server took too long to respond. Please try again.':err.message;
+    eb.textContent='❌ '+msg;eb.classList.add('show');
+    showToast('Error: '+msg);
   }finally{btn.disabled=false}
 }
 
