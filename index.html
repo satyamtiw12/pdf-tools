@@ -194,7 +194,7 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
   </div>
 </section>
 
-<footer><p> PDFBox — Free PDF Tools &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p><p style="margin-top:6px">All tools are free. Your data is safe.</p></footer>
+<footer><p>PDFBox — Free PDF Tools &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p><p style="margin-top:6px">All tools are free. Your data is safe.</p></footer>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
@@ -209,7 +209,7 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
 <div class="toast" id="toast"></div>
 
 <script>
-const DAILY_LIMIT=10;
+const DAILY_LIMIT=999999;
 function getUsed(){return parseInt(localStorage.getItem('pdfbox_'+new Date().toDateString())||'0')}
 function addUse(){localStorage.setItem('pdfbox_'+new Date().toDateString(),getUsed()+1)}
 function canUse(){return getUsed()<DAILY_LIMIT}
@@ -270,7 +270,7 @@ const tools={
 let curTool=null,selFiles=[],exFiles={},dlBlob=null;
 
 function openTool(id){
-  if(!canUse()){showToast('⚠️ Daily limit reached! Come back tomorrow.');return}
+  
   curTool=id;selFiles=[];exFiles={};dlBlob=null;
   const t=tools[id];
   document.getElementById('modalIcon').className='modal-icon '+t.color;
@@ -278,7 +278,6 @@ function openTool(id){
   document.getElementById('modalTitle').textContent=t.name;
 
   const used=getUsed(),rem=DAILY_LIMIT-used;
-  const dots=Array.from({length:DAILY_LIMIT},(_,i)=>`<div class="limit-dot ${i<used?'used':''}"></div>`).join('');
 
   let optsH='';
   if(t.opts?.length){
@@ -301,8 +300,6 @@ function openTool(id){
   }
 
   document.getElementById('modalBody').innerHTML=`
-    <div class="config-note">⚙️ Backend URL: Set <code>API_BASE</code> at the top of <code>index.html</code> after deploying.</div>
-    <div class="daily-limit-bar"><div class="limit-dots">${dots}</div><span><strong>${rem}</strong> uses remaining today</span></div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:16px">${t.desc}</p>
     <div class="upload-area" id="upa" onclick="document.getElementById('fmod').click()"
       ondragover="event.preventDefault();this.classList.add('dragover')"
@@ -350,7 +347,7 @@ function handleFiles(files){
 function rmFile(i){selFiles.splice(i,1);document.getElementById(`fi${i}`)?.remove();if(!selFiles.length)document.getElementById('procBtn').disabled=true}
 
 async function doProcess(){
-  if(!selFiles.length||!canUse())return;
+  if(!selFiles.length)return;
   const t=tools[curTool];
   const btn=document.getElementById('procBtn'),pw=document.getElementById('pw'),pf=document.getElementById('pf'),
     pm=document.getElementById('pmsg'),pp=document.getElementById('ppct'),
@@ -382,7 +379,7 @@ async function doProcess(){
     }
 
     pf.style.width='100%';pp.textContent='100%';pm.textContent='Complete!';
-    addUse();
+    
 
     if(t.infoOnly){
       const data=await res.json();
