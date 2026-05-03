@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -95,9 +95,9 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
 <body>
 
 <script>
-  // ⚙️ YAHAN APNA BACKEND URL DAALEIN (Railway ya Render deploy ke baad)
+  // ⚙️ SET YOUR BACKEND URL HERE (after Railway or Render deploy)
   const API_BASE = "https://pdf-tools-uzhs.onrender.com";
-  // Local test ke liye: const API_BASE = "http://localhost:8000";
+  // For local testing: const API_BASE = "http://localhost:8000";
 </script>
 
 <nav>
@@ -114,11 +114,11 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
 
 <section class="hero">
   <div class="hero-tag">All Tools Free · No Sign Up</div>
-  <h1>PDF ke saare kaam<br><span>ek jagah</span></h1>
-  <p>Merge, split, compress, convert — sab kuch free mein. Aapki files 1-2 ghante mein automatically delete ho jaati hain.</p>
+  <h1>All PDF Tasks<br><span>One Place</span></h1>
+  <p>Merge, split, compress, convert — all for free. Your files are automatically deleted within 1-2 hours.</p>
   <div class="hero-stats">
     <div class="hero-stat"><strong>13+</strong><span>PDF Tools</span></div>
-    <div class="hero-stat"><strong>Free</strong><span>Hamesha ke liye</span></div>
+    <div class="hero-stat"><strong>Free</strong><span>Forever</span></div>
     <div class="hero-stat"><strong>20MB</strong><span>Max File Size</span></div>
     <div class="hero-stat"><strong>1–2hr</strong><span>Auto Delete</span></div>
   </div>
@@ -128,12 +128,12 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
   <div class="limits-card">
     <div class="limits-icon">⚠️</div>
     <div class="limits-content">
-      <h3>Free Plan ki Limits</h3>
+      <h3>Free Plan Limits</h3>
       <div class="limits-grid">
         <div class="limit-item">Max file size: 20 MB</div>
         <div class="limit-item">Daily: 10 uses per user</div>
-        <div class="limit-item">Batch processing nahi</div>
-        <div class="limit-item">Files 1-2 ghante mein delete</div>
+        <div class="limit-item">No batch processing</div>
+        <div class="limit-item">Files deleted in 1-2 hours</div>
       </div>
     </div>
   </div>
@@ -141,60 +141,60 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
 
 <div class="tools-section" id="tools">
   <div class="section-header fade-up">
-    <h2>Sabhi PDF Tools</h2>
-    <p>Kisi bhi tool par click karein — seedha use karna shuru ho jayega</p>
+    <h2>All PDF Tools</h2>
+    <p>Click on any tool — start using it right away</p>
   </div>
 
   <div class="category fade-up">
     <div class="cat-label">Basic Tools</div>
     <div class="tools-grid">
-      <div class="tool-card" onclick="openTool('merge')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">🔗</div><div class="tool-name">Merge PDF</div><div class="tool-desc">Multiple PDFs ko ek mein jodein</div></div>
-      <div class="tool-card" onclick="openTool('split')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">✂️</div><div class="tool-name">Split PDF</div><div class="tool-desc">PDF ko pages mein baantein</div></div>
-      <div class="tool-card" onclick="openTool('compress')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-orange">🗜️</div><div class="tool-name">Compress PDF</div><div class="tool-desc">File size kam karein quality rakh ke</div></div>
-      <div class="tool-card" onclick="openTool('pdf-to-jpg')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">🖼️</div><div class="tool-name">PDF to JPG</div><div class="tool-desc">PDF pages ko images mein badlein</div></div>
-      <div class="tool-card" onclick="openTool('jpg-to-pdf')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">📸</div><div class="tool-name">JPG to PDF</div><div class="tool-desc">Images ko PDF mein convert karein</div></div>
+      <div class="tool-card" onclick="openTool('merge')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">🔗</div><div class="tool-name">Merge PDF</div><div class="tool-desc">Combine multiple PDFs into one</div></div>
+      <div class="tool-card" onclick="openTool('split')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">✂️</div><div class="tool-name">Split PDF</div><div class="tool-desc">Split PDF into pages</div></div>
+      <div class="tool-card" onclick="openTool('compress')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-orange">🗜️</div><div class="tool-name">Compress PDF</div><div class="tool-desc">Reduce file size while keeping quality</div></div>
+      <div class="tool-card" onclick="openTool('pdf-to-jpg')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">🖼️</div><div class="tool-name">PDF to JPG</div><div class="tool-desc">Convert PDF pages to images</div></div>
+      <div class="tool-card" onclick="openTool('jpg-to-pdf')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">📸</div><div class="tool-name">JPG to PDF</div><div class="tool-desc">Convert images to PDF</div></div>
     </div>
   </div>
 
   <div class="category fade-up">
     <div class="cat-label">Editing Tools</div>
     <div class="tools-grid">
-      <div class="tool-card" onclick="openTool('add-text')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-purple">✏️</div><div class="tool-name">Add Text</div><div class="tool-desc">PDF par kahi bhi text add karein</div></div>
-      <div class="tool-card" onclick="openTool('add-signature')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-purple">🖊️</div><div class="tool-name">Add Signature</div><div class="tool-desc">Signature image PDF par lagaein</div></div>
+      <div class="tool-card" onclick="openTool('add-text')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-purple">✏️</div><div class="tool-name">Add Text</div><div class="tool-desc">Add text anywhere on PDF</div></div>
+      <div class="tool-card" onclick="openTool('add-signature')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-purple">🖊️</div><div class="tool-name">Add Signature</div><div class="tool-desc">Place signature image on PDF</div></div>
     </div>
   </div>
 
   <div class="category fade-up">
     <div class="cat-label">Page Tools</div>
     <div class="tools-grid">
-      <div class="tool-card" onclick="openTool('rotate')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-blue">🔄</div><div class="tool-name">Rotate PDF</div><div class="tool-desc">Pages ko rotate karein</div></div>
-      <div class="tool-card" onclick="openTool('delete-pages')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">🗑️</div><div class="tool-name">Delete Pages</div><div class="tool-desc">Specific pages hatao</div></div>
-      <div class="tool-card" onclick="openTool('reorder')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">📋</div><div class="tool-name">Reorder Pages</div><div class="tool-desc">Pages ka order badlein</div></div>
+      <div class="tool-card" onclick="openTool('rotate')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-blue">🔄</div><div class="tool-name">Rotate PDF</div><div class="tool-desc">Rotate pages</div></div>
+      <div class="tool-card" onclick="openTool('delete-pages')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">🗑️</div><div class="tool-name">Delete Pages</div><div class="tool-desc">Remove specific pages</div></div>
+      <div class="tool-card" onclick="openTool('reorder')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">📋</div><div class="tool-name">Reorder Pages</div><div class="tool-desc">Change the order of pages</div></div>
     </div>
   </div>
 
   <div class="category fade-up">
     <div class="cat-label">Security</div>
     <div class="tools-grid">
-      <div class="tool-card" onclick="openTool('protect')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">🔒</div><div class="tool-name">Password Protect</div><div class="tool-desc">PDF par password lagaein</div></div>
-      <div class="tool-card" onclick="openTool('unlock')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">🔓</div><div class="tool-name">Unlock PDF</div><div class="tool-desc">PDF se password hataein</div></div>
-      <div class="tool-card" onclick="openTool('info')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-blue">ℹ️</div><div class="tool-name">PDF Info</div><div class="tool-desc">PDF ki details dekho</div></div>
+      <div class="tool-card" onclick="openTool('protect')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-red">🔒</div><div class="tool-name">Password Protect</div><div class="tool-desc">Add password to PDF</div></div>
+      <div class="tool-card" onclick="openTool('unlock')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-green">🔓</div><div class="tool-name">Unlock PDF</div><div class="tool-desc">Remove password from PDF</div></div>
+      <div class="tool-card" onclick="openTool('info')"><span class="tool-badge badge-free">Free</span><div class="tool-icon ic-blue">ℹ️</div><div class="tool-name">PDF Info</div><div class="tool-desc">View PDF details</div></div>
     </div>
   </div>
 </div>
 
 <section class="privacy-section fade-up" id="privacy">
-  <h2>Aapki Privacy Pehle</h2>
-  <p>Aapki files kabhi bhi permanently store nahi hoti.</p>
+  <h2>Your Privacy First</h2>
+  <p>Your files are never stored permanently.</p>
   <div class="privacy-grid">
-    <div class="privacy-item"><div class="pi-icon">⏱️</div><h4>Auto Delete</h4><p>1-2 ghante mein automatically delete</p></div>
-    <div class="privacy-item"><div class="pi-icon">🔐</div><h4>Encrypted</h4><p>HTTPS se secure transfer</p></div>
-    <div class="privacy-item"><div class="pi-icon">🚫</div><h4>No Storage</h4><p>Koi permanent database nahi</p></div>
-    <div class="privacy-item"><div class="pi-icon">👤</div><h4>No Account</h4><p>Sign up ki zaroorat nahi</p></div>
+    <div class="privacy-item"><div class="pi-icon">⏱️</div><h4>Auto Delete</h4><p>Automatically deleted in 1-2 hours</p></div>
+    <div class="privacy-item"><div class="pi-icon">🔐</div><h4>Encrypted</h4><p>Secure transfer via HTTPS</p></div>
+    <div class="privacy-item"><div class="pi-icon">🚫</div><h4>No Storage</h4><p>No permanent database</p></div>
+    <div class="privacy-item"><div class="pi-icon">👤</div><h4>No Account</h4><p>No sign up required</p></div>
   </div>
 </section>
 
-<footer><p>PDFBox — Free PDF Tools &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p><p style="margin-top:6px">Sab tools free hain. Aapka data safe hai.</p></footer>
+<footer><p>PDFBox — Free PDF Tools &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p><p style="margin-top:6px">All tools are free. Your data is safe.</p></footer>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
@@ -229,48 +229,48 @@ const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.targe
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
 const tools={
-  merge:{name:'Merge PDF',icon:'🔗',color:'ic-red',desc:'Multiple PDFs ko ek mein jodein (min 2 files chahiye).',accepts:'.pdf',multi:true,label:'PDFs select karein',opts:[],ep:'/api/merge',
+  merge:{name:'Merge PDF',icon:'🔗',color:'ic-red',desc:'Combine multiple PDFs into one (min 2 files chahiye).',accepts:'.pdf',multi:true,label:'Select PDFs',opts:[],ep:'/api/merge',
     fd:(f,o)=>{const d=new FormData();f.forEach(x=>d.append('files',x));return d},out:'merged.pdf'},
-  split:{name:'Split PDF',icon:'✂️',color:'ic-red',desc:'PDF ko pages mein baantein.',accepts:'.pdf',multi:false,label:'PDF select karein',
-    opts:[{l:'Method',id:'splitM',type:'select',items:[{v:'each',l:'Har page alag (ZIP)'},{v:'range',l:'Page range'}]},{l:'Page Range',id:'splitR',type:'text',ph:'e.g. 1-3, 5'}],
+  split:{name:'Split PDF',icon:'✂️',color:'ic-red',desc:'Split PDF into pages.',accepts:'.pdf',multi:false,label:'Select PDF',
+    opts:[{l:'Method',id:'splitM',type:'select',items:[{v:'each',l:'Each page separate (ZIP)'},{v:'range',l:'Page range'}]},{l:'Page Range',id:'splitR',type:'text',ph:'e.g. 1-3, 5'}],
     ep:'/api/split',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('method',o.splitM||'each');d.append('page_range',o.splitR||'');return d},out:'split.zip'},
-  compress:{name:'Compress PDF',icon:'🗜️',color:'ic-orange',desc:'PDF ki file size kam karein.',accepts:'.pdf',multi:false,label:'PDF select karein',
+  compress:{name:'Compress PDF',icon:'🗜️',color:'ic-orange',desc:'Reduce the file size of a PDF.',accepts:'.pdf',multi:false,label:'Select PDF',
     opts:[{l:'Level',id:'cmpL',type:'select',items:[{v:'low',l:'Low (best quality)'},{v:'medium',l:'Medium'},{v:'high',l:'High (smallest)'}]}],
     ep:'/api/compress',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('level',o.cmpL||'medium');return d},out:'compressed.pdf',showSaved:true},
-  'pdf-to-jpg':{name:'PDF to JPG',icon:'🖼️',color:'ic-green',desc:'PDF pages ko JPG images mein badlein.',accepts:'.pdf',multi:false,label:'PDF select karein',
+  'pdf-to-jpg':{name:'PDF to JPG',icon:'🖼️',color:'ic-green',desc:'Convert PDF pages to JPG images.',accepts:'.pdf',multi:false,label:'Select PDF',
     opts:[{l:'DPI',id:'dpi',type:'select',items:[{v:'72',l:'72 DPI (Low)'},{v:'150',l:'150 DPI (Medium)'},{v:'300',l:'300 DPI (High)'}]}],
     ep:'/api/pdf-to-jpg',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('dpi',o.dpi||'150');return d},out:'pdf_images.zip'},
-  'jpg-to-pdf':{name:'JPG to PDF',icon:'📸',color:'ic-green',desc:'Images ko ek PDF mein combine karein.',accepts:'image/*',multi:true,label:'Images select karein',opts:[],
+  'jpg-to-pdf':{name:'JPG to PDF',icon:'📸',color:'ic-green',desc:'Combine images into a single PDF.',accepts:'image/*',multi:true,label:'Select Images',opts:[],
     ep:'/api/jpg-to-pdf',fd:(f,o)=>{const d=new FormData();f.forEach(x=>d.append('files',x));return d},out:'images.pdf'},
-  'add-text':{name:'Add Text',icon:'✏️',color:'ic-purple',desc:'PDF par custom text add karein.',accepts:'.pdf',multi:false,label:'PDF select karein',
-    opts:[{l:'Text',id:'atxt',type:'text',ph:'Yahan likhein...'},{l:'Page #',id:'apg',type:'text',ph:'1'},{l:'Position',id:'apos',type:'select',items:[{v:'bottom-center',l:'Bottom Center'},{v:'bottom-left',l:'Bottom Left'},{v:'bottom-right',l:'Bottom Right'},{v:'top-center',l:'Top Center'},{v:'center',l:'Center'}]},{l:'Font Size',id:'afs',type:'text',ph:'14'},{l:'Color',id:'acol',type:'select',items:[{v:'black',l:'Black'},{v:'red',l:'Red'},{v:'blue',l:'Blue'},{v:'green',l:'Green'}]}],
+  'add-text':{name:'Add Text',icon:'✏️',color:'ic-purple',desc:'Add custom text on a PDF.',accepts:'.pdf',multi:false,label:'Select PDF',
+    opts:[{l:'Text',id:'atxt',type:'text',ph:'Write here...'},{l:'Page #',id:'apg',type:'text',ph:'1'},{l:'Position',id:'apos',type:'select',items:[{v:'bottom-center',l:'Bottom Center'},{v:'bottom-left',l:'Bottom Left'},{v:'bottom-right',l:'Bottom Right'},{v:'top-center',l:'Top Center'},{v:'center',l:'Center'}]},{l:'Font Size',id:'afs',type:'text',ph:'14'},{l:'Color',id:'acol',type:'select',items:[{v:'black',l:'Black'},{v:'red',l:'Red'},{v:'blue',l:'Blue'},{v:'green',l:'Green'}]}],
     ep:'/api/add-text',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('text',o.atxt||'PDFBox');d.append('page_number',o.apg||'1');d.append('position',o.apos||'bottom-center');d.append('font_size',o.afs||'14');d.append('color',o.acol||'black');return d},out:'text_added.pdf'},
-  'add-signature':{name:'Add Signature',icon:'🖊️',color:'ic-purple',desc:'Signature image upload karein aur PDF par lagaein.',accepts:'.pdf',multi:false,label:'PDF select karein',extraFile:{id:'sigf',label:'Signature Image (PNG/JPG)',accepts:'image/*'},
+  'add-signature':{name:'Add Signature',icon:'🖊️',color:'ic-purple',desc:'Upload a signature image and place it on a PDF.',accepts:'.pdf',multi:false,label:'Select PDF',extraFile:{id:'sigf',label:'Signature Image (PNG/JPG)',accepts:'image/*'},
     opts:[{l:'Page (-1=last)',id:'spg',type:'text',ph:'-1'},{l:'Position',id:'spos',type:'select',items:[{v:'bottom-right',l:'Bottom Right'},{v:'bottom-left',l:'Bottom Left'},{v:'bottom-center',l:'Bottom Center'},{v:'top-right',l:'Top Right'}]},{l:'Width (px)',id:'sw',type:'text',ph:'150'}],
     ep:'/api/add-signature',fd:(f,o,ex)=>{const d=new FormData();d.append('pdf_file',f[0]);if(ex?.sigf)d.append('sig_file',ex.sigf);d.append('page_number',o.spg||'-1');d.append('position',o.spos||'bottom-right');d.append('sig_width',o.sw||'150');return d},out:'signed.pdf'},
-  rotate:{name:'Rotate PDF',icon:'🔄',color:'ic-blue',desc:'PDF pages rotate karein.',accepts:'.pdf',multi:false,label:'PDF select karein',
-    opts:[{l:'Degrees',id:'rdeg',type:'select',items:[{v:'90',l:'90° Clockwise'},{v:'270',l:'90° Anti-clockwise'},{v:'180',l:'180°'}]},{l:'Apply to',id:'rapply',type:'select',items:[{v:'all',l:'Sabhi pages'},{v:'first',l:'Pehla page'},{v:'range',l:'Page range'}]},{l:'Page Range',id:'rrange',type:'text',ph:'e.g. 1-3, 5'}],
+  rotate:{name:'Rotate PDF',icon:'🔄',color:'ic-blue',desc:'Rotate PDF pages.',accepts:'.pdf',multi:false,label:'Select PDF',
+    opts:[{l:'Degrees',id:'rdeg',type:'select',items:[{v:'90',l:'90° Clockwise'},{v:'270',l:'90° Anti-clockwise'},{v:'180',l:'180°'}]},{l:'Apply to',id:'rapply',type:'select',items:[{v:'all',l:'All pages'},{v:'first',l:'First page'},{v:'range',l:'Page range'}]},{l:'Page Range',id:'rrange',type:'text',ph:'e.g. 1-3, 5'}],
     ep:'/api/rotate',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('degrees',o.rdeg||'90');d.append('apply_to',o.rapply||'all');d.append('page_range',o.rrange||'');return d},out:'rotated.pdf'},
-  'delete-pages':{name:'Delete Pages',icon:'🗑️',color:'ic-red',desc:'Specific pages PDF se hatao.',accepts:'.pdf',multi:false,label:'PDF select karein',
+  'delete-pages':{name:'Delete Pages',icon:'🗑️',color:'ic-red',desc:'Remove specific pages from PDF.',accepts:'.pdf',multi:false,label:'Select PDF',
     opts:[{l:'Pages to Delete',id:'dpgs',type:'text',ph:'e.g. 2, 4-6, 8'}],
     ep:'/api/delete-pages',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('pages_to_delete',o.dpgs||'');return d},out:'pages_deleted.pdf'},
-  reorder:{name:'Reorder Pages',icon:'📋',color:'ic-green',desc:'Pages ka order badlein.',accepts:'.pdf',multi:false,label:'PDF select karein',
+  reorder:{name:'Reorder Pages',icon:'📋',color:'ic-green',desc:'Change the order of pages.',accepts:'.pdf',multi:false,label:'Select PDF',
     opts:[{l:'New Order',id:'rord',type:'text',ph:'e.g. 3,1,2,4'}],
     ep:'/api/reorder',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('new_order',o.rord||'');return d},out:'reordered.pdf'},
-  protect:{name:'Password Protect',icon:'🔒',color:'ic-red',desc:'PDF par password lagaein.',accepts:'.pdf',multi:false,label:'PDF select karein',
-    opts:[{l:'Password',id:'pp1',type:'text',ph:'Strong password...'},{l:'Confirm',id:'pp2',type:'text',ph:'Dobara likhein...'}],
-    ep:'/api/protect',fd:(f,o)=>{if(o.pp1!==o.pp2)throw new Error('Passwords match nahi karte!');if(!o.pp1||o.pp1.length<4)throw new Error('Min 4 characters ka password chahiye');const d=new FormData();d.append('file',f[0]);d.append('password',o.pp1);return d},out:'protected.pdf'},
-  unlock:{name:'Unlock PDF',icon:'🔓',color:'ic-green',desc:'PDF se password hataein.',accepts:'.pdf',multi:false,label:'PDF select karein',
-    opts:[{l:'Current Password',id:'upass',type:'text',ph:'PDF ka password...'}],
+  protect:{name:'Password Protect',icon:'🔒',color:'ic-red',desc:'Add password to PDF.',accepts:'.pdf',multi:false,label:'Select PDF',
+    opts:[{l:'Password',id:'pp1',type:'text',ph:'Strong password...'},{l:'Confirm',id:'pp2',type:'text',ph:'Confirm password...'}],
+    ep:'/api/protect',fd:(f,o)=>{if(o.pp1!==o.pp2)throw new Error('Passwords do not match!');if(!o.pp1||o.pp1.length<4)throw new Error('Password must be at least 4 characters');const d=new FormData();d.append('file',f[0]);d.append('password',o.pp1);return d},out:'protected.pdf'},
+  unlock:{name:'Unlock PDF',icon:'🔓',color:'ic-green',desc:'Remove password from PDF.',accepts:'.pdf',multi:false,label:'Select PDF',
+    opts:[{l:'Current Password',id:'upass',type:'text',ph:'PDF password...'}],
     ep:'/api/unlock',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);d.append('password',o.upass||'');return d},out:'unlocked.pdf'},
-  info:{name:'PDF Info',icon:'ℹ️',color:'ic-blue',desc:'PDF ki details dekho.',accepts:'.pdf',multi:false,label:'PDF select karein',opts:[],infoOnly:true,
+  info:{name:'PDF Info',icon:'ℹ️',color:'ic-blue',desc:'View PDF details.',accepts:'.pdf',multi:false,label:'Select PDF',opts:[],infoOnly:true,
     ep:'/api/info',fd:(f,o)=>{const d=new FormData();d.append('file',f[0]);return d},out:null}
 };
 
 let curTool=null,selFiles=[],exFiles={},dlBlob=null;
 
 function openTool(id){
-  if(!canUse()){showToast('⚠️ Daily limit poori ho gayi! Kal wapas aayein.');return}
+  if(!canUse()){showToast('⚠️ Daily limit reached! Come back tomorrow.');return}
   curTool=id;selFiles=[];exFiles={};dlBlob=null;
   const t=tools[id];
   document.getElementById('modalIcon').className='modal-icon '+t.color;
@@ -301,14 +301,12 @@ function openTool(id){
   }
 
   document.getElementById('modalBody').innerHTML=`
-    <div class="config-note">⚙️ Backend URL: <code>index.html</code> ke upar <code>API_BASE</code> set karein Railway deploy ke baad.</div>
-    <div class="daily-limit-bar"><div class="limit-dots">${dots}</div><span><strong>${rem}</strong> uses aaj baaki</span></div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:16px">${t.desc}</p>
     <div class="upload-area" id="upa" onclick="document.getElementById('fmod').click()"
       ondragover="event.preventDefault();this.classList.add('dragover')"
       ondragleave="this.classList.remove('dragover')" ondrop="handleDrop(event)">
       <div class="upload-icon">${t.icon}</div>
-      <h3>${t.label}</h3><p>Click ya drag & drop</p>
+      <h3>${t.label}</h3><p>Click or drag & drop</p>
       <div class="limit-note">Max 20 MB · ${t.multi?'Multiple files OK':'Single file'}</div>
     </div>
     <input type="file" id="fmod" accept="${t.accepts}" ${t.multi?'multiple':''} style="display:none" onchange="handleFiles(this.files)">
@@ -317,13 +315,13 @@ function openTool(id){
     <div class="progress-wrap" id="pw"><div class="progress-label"><span id="pmsg">Processing...</span><span id="ppct">0%</span></div><div class="progress-bar"><div class="progress-fill" id="pf"></div></div></div>
     <div class="error-box" id="eb"></div>
     <div class="result-box" id="rb">
-      <h3>✅ Ho gaya!</h3>
-      <p id="rmsg">Aapki file taiyar hai.</p>
-      <button class="btn btn-success" onclick="triggerDl()">⬇ Download Karein</button>
+      <h3>✅ Done!</h3>
+      <p id="rmsg">Your file is ready.</p>
+      <button class="btn btn-success" onclick="triggerDl()">⬇ Download</button>
       <div class="result-meta" id="rmeta"></div>
     </div>
     <div class="btn-row">
-      <button class="btn btn-primary" id="procBtn" onclick="doProcess()" disabled>${t.icon} ${t.infoOnly?'Info Dekho':'Process Karein'}</button>
+      <button class="btn btn-primary" id="procBtn" onclick="doProcess()" disabled>${t.icon} ${t.infoOnly?'View Info':'Process'}</button>
       <button class="btn btn-secondary" onclick="closeModalDirect()">Cancel</button>
     </div>`;
   document.getElementById('modalOverlay').classList.add('open');
@@ -357,7 +355,7 @@ async function doProcess(){
     eb=document.getElementById('eb'),rb=document.getElementById('rb');
 
   btn.disabled=true;eb.classList.remove('show');rb.classList.remove('show');
-  pw.style.display='block';pf.style.width='5%';pm.textContent='Upload ho raha hai...';pp.textContent='5%';
+  pw.style.display='block';pf.style.width='5%';pm.textContent='Uploading...';pp.textContent='5%';
 
   const opts={};
   t.opts?.forEach(o=>{const el=document.getElementById(o.id);if(el)opts[o.id]=el.value});
@@ -370,7 +368,7 @@ async function doProcess(){
     const pi=setInterval(()=>{
       prog+=Math.random()*10+4;if(prog>88)prog=88;
       pf.style.width=prog+'%';pp.textContent=Math.round(prog)+'%';
-      pm.textContent=prog<40?'Upload ho raha hai...':prog<75?'Processing...':'Almost done...';
+      pm.textContent=prog<40?'Uploading...':prog<75?'Processing...':'Almost done...';
     },400);
 
     const res=await fetch(API_BASE+t.ep,{method:'POST',body:fd});
@@ -391,7 +389,7 @@ async function doProcess(){
         <table style="margin:0 auto;font-size:13px;text-align:left;border-collapse:collapse">
           <tr><td style="padding:4px 16px 4px 0;color:var(--text2)">Pages</td><td><strong>${data.pages}</strong></td></tr>
           <tr><td style="padding:4px 16px 4px 0;color:var(--text2)">File Size</td><td><strong>${data.file_size_kb} KB</strong></td></tr>
-          <tr><td style="padding:4px 16px 4px 0;color:var(--text2)">Encrypted</td><td><strong>${data.encrypted?'Haan 🔒':'Nahi'}</strong></td></tr>
+          <tr><td style="padding:4px 16px 4px 0;color:var(--text2)">Encrypted</td><td><strong>${data.encrypted?'Yes 🔒':'No'}</strong></td></tr>
           <tr><td style="padding:4px 16px 4px 0;color:var(--text2)">Title</td><td><strong>${data.title}</strong></td></tr>
           <tr><td style="padding:4px 16px 4px 0;color:var(--text2)">Author</td><td><strong>${data.author}</strong></td></tr>
         </table>`;
@@ -399,10 +397,10 @@ async function doProcess(){
     }else{
       const blob=await res.blob();
       dlBlob={blob,name:t.out};rb.classList.add('show');
-      document.getElementById('rmsg').textContent='Aapki file taiyar hai! Download karein.';
+      document.getElementById('rmsg').textContent='Your file is ready! Download it.';
       const saved=res.headers.get('X-Saved-Percent');
       if(saved)document.getElementById('rmeta').textContent=`📉 ${saved}% size kam hui!`;
-      showToast('✅ File taiyar! Download karein.');
+      showToast('✅ File ready! Download it.');
     }
   }catch(err){
     pf.style.width='0%';pw.style.display='none';
@@ -415,7 +413,7 @@ function triggerDl(){
   if(!dlBlob)return;
   const url=URL.createObjectURL(dlBlob.blob);
   const a=document.createElement('a');a.href=url;a.download=dlBlob.name;a.click();
-  URL.revokeObjectURL(url);showToast('⬇ Download shuru!');
+  URL.revokeObjectURL(url);showToast('⬇ Download started!');
 }
 
 function closeModal(e){if(e.target===document.getElementById('modalOverlay'))closeModalDirect()}
