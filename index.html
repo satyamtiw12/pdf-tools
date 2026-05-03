@@ -124,20 +124,7 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
   </div>
 </section>
 
-<div class="limits-banner fade-up">
-  <div class="limits-card">
-    <div class="limits-icon">⚠️</div>
-    <div class="limits-content">
-      <h3>Free Plan Limits</h3>
-      <div class="limits-grid">
-        <div class="limit-item">Max file size: 20 MB</div>
-        <div class="limit-item">Daily: 10 uses per user</div>
-        <div class="limit-item">No batch processing</div>
-        <div class="limit-item">Files deleted in 1-2 hours</div>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <div class="tools-section" id="tools">
   <div class="section-header fade-up">
@@ -194,7 +181,7 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
   </div>
 </section>
 
-<footer><p>PDFBox — Free PDF Tools &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p><p style="margin-top:6px">All tools are free. Your data is safe.</p></footer>
+<footer><p>© 2025 PDFBox — Free PDF Tools &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p><p style="margin-top:6px">All tools are free. Your data is safe.</p></footer>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
@@ -209,10 +196,9 @@ footer{background:var(--text);color:var(--text3);border-top:1px solid rgba(255,2
 <div class="toast" id="toast"></div>
 
 <script>
-const DAILY_LIMIT=10;
-function getUsed(){return parseInt(localStorage.getItem('pdfbox_'+new Date().toDateString())||'0')}
-function addUse(){localStorage.setItem('pdfbox_'+new Date().toDateString(),getUsed()+1)}
-function canUse(){return getUsed()<DAILY_LIMIT}
+function getUsed(){return 0}
+function addUse(){}
+function canUse(){return true}
 
 async function checkApi(){
   try{
@@ -222,6 +208,7 @@ async function checkApi(){
   }catch{document.getElementById('apiDot').className='api-dot offline';document.getElementById('apiTxt').textContent='Server Offline'}
 }
 checkApi();setInterval(checkApi,30000);
+setInterval(()=>fetch(API_BASE+'/health').catch(()=>{}),600000);
 
 function showToast(msg,d=3500){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),d)}
 
